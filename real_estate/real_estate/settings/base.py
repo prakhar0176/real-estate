@@ -114,6 +114,8 @@ MEDIA_ROOT = BASE_DIR / 'mediafiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTH_USER_MODEL = "users.User"
+
 
 # Ensure the logs directory exists
 LOGS_DIR = BASE_DIR / 'logs'
@@ -171,8 +173,8 @@ logging.config.dictConfig({
 })
 
 # Test Logging
-logger.debug("This is a debug message")
-logger.info("This is an info message")
-logger.warning("This is a warning message")
-logger.error("This is an error message")
-logger.critical("This is a critical message")
+# logger.debug("This is a debug message")
+# logger.info("This is an info message")
+# logger.warning("This is a warning message")
+# logger.error("This is an error message")
+# logger.critical("This is a critical message")

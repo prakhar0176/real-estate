@@ -3,6 +3,13 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.utils.translation import gettext_lazy as _
 
+# This imports the gettext_lazy function from Django's translation utilities. gettext_lazy is used to mark strings in your code that should be translated into different languages. The "lazy" part means that the string is not translated immediately but is instead marked for translation when it is actually used.
+
+# BaseUserManager is a class provided by Django specifically for managing user objects. It comes with built-in methods for user creation, such as create_user and create_superuser, and other utilities.
+
+# By inheriting from BaseUserManager, CustomUserManager can use or override these existing methods to tailor them to the specific needs of your application.
+
+# CustomUserManager is class that inherits from BaseUserManager.
 class CustomUserManager(BaseUserManager):
     def email_validator(self, email):
         try:
@@ -21,10 +28,15 @@ class CustomUserManager(BaseUserManager):
             raise ValueError(_('Users must submit a last name'))
         
         if email:
+            # normalize_email is a method that likely formats or cleans up the email address to ensure consistency (e.g., converting it to lowercase, trimming whitespace)
             email = self.normalize_email(email)
+            # email_validator method probably checks if the email is in a valid format or adheres to certain criteria.
             self.email_validator(email)
         else:
             raise ValueError(_('Base User Account: An email address is required'))
+        
+        # self.model refers to the model class associated with the manager or class where this code resides. 
+        # creation of a new user object by calling the model's constructor.
         
         user = self.model(
             username=username, 
@@ -34,9 +46,13 @@ class CustomUserManager(BaseUserManager):
             **extra_fields
         )
 
+        # Instead of storing the password as plain text, set_password hashes the password using Django's password hashing system. This ensures that even if the database is compromised, the passwords are not exposed in their original form.
         user.set_password(password)
+        # setdefault checks if the key 'is_staff' is present in the extra_fields dictionary. If it's not, it sets it to False.
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
+        # using=self._db specifies which database to use, which is useful in projects with multiple databases. In most cases, this will use the default database.
+        # The save method commits the user instance to the database.
         user.save(using=self._db)
         return user
     
