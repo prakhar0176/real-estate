@@ -26,5 +26,7 @@ Filters can be applied to both loggers and handlers.
 
 There are 2 way to create Custom User model in Django.
 
-1. Abstract User
-2. Abstract Base User(Here we use this)
+1. Abstract User ----> AbstractUser
+2. Abstract Base User(Here we use this) ----> AbstractBaseUser
+
+Manager ------> BaseUserManager
